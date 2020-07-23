@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.challenge.entity.Challenge;
@@ -18,11 +18,11 @@ public class ChallengeController {
     @Autowired
     private ChallengeServiceInterface challengeService;
     
-    @GetMapping("/acceleration/{accelerationId}/user/{userId}")
+    @GetMapping
     public List<Challenge> findByAccelerationIdAndUserIs(
-            @PathVariable("accelerationId") Long accelerationId, 
-            @PathVariable("userId") Long userId) {
+            @RequestParam(value = "accelerationId") Long accelerationId, 
+            @RequestParam(value = "userId") Long userId) {
         return this.challengeService.findByAccelerationIdAndUserId(accelerationId, userId);
     }
-
+    
 }

@@ -12,4 +12,6 @@ public interface CandidateServiceInterface extends ServiceInterface<Candidate> {
     List<Candidate> findByCompanyId(Long companyId);
 
     List<Candidate> findByAccelerationId(Long accelerationId);
+    
+    List<Candidate> findAll();
 }

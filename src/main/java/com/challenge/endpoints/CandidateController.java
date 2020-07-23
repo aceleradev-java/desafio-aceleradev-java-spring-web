@@ -18,6 +18,11 @@ public class CandidateController {
     @Autowired
     private CandidateServiceInterface candidateService;
     
+    @GetMapping
+    public List<Candidate> findAll() {
+        return this.candidateService.findAll();
+    }
+
     @GetMapping("/user/{userId}/company/{companyId}/acceleration/{accelerationId}")
     public Candidate findById(
             @PathVariable("userId") Long userId,

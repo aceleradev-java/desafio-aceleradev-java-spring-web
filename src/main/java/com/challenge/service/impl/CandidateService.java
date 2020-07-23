@@ -30,4 +30,9 @@ public class CandidateService implements CandidateServiceInterface {
         return candidateRepository.findByIdAccelerationId(accelerationId);
     }
 
+    @Override
+    public List<Candidate> findAll() {
+        return this.candidateRepository.findAll();
+    }
+
 }

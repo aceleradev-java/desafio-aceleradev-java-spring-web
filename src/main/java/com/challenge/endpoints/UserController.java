@@ -1,15 +1,16 @@
 package com.challenge.endpoints;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.challenge.entity.User;
+import com.challenge.exceptions.ResourceNotFoundException;
 import com.challenge.service.impl.UserService;
 
 @RestController
@@ -21,17 +22,18 @@ public class UserController {
     
     @GetMapping("/{id}")
     public User save(@PathVariable("id") Long userId) {
-        return this.userService.findById(userId).get();
+        return this.userService.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
     
-    @GetMapping("/acceleration/{name}")
-    public List<User> findByAccelerationName(@PathVariable("name") String accelerationName) {
+    @GetMapping
+    public List<User> findAll(
+            @RequestParam(value = "accelerationName", required = false, defaultValue = "") String accelerationName,
+            @RequestParam(value = "companyId", required = false, defaultValue = "0") Long companyId) {
+        if (companyId != 0) {
+            return this.userService.findByCompanyId(companyId);
+        }
         return this.userService.findByAccelerationName(accelerationName);
     }
     
-    @GetMapping("/company/{id}")
-    public List<User> findByCompanyId(@PathVariable("id") Long companyId) {
-        return this.userService.findByCompanyId(companyId);
-    }
-
 }

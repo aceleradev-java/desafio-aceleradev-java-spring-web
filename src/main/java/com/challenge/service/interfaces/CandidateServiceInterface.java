@@ -13,5 +13,4 @@ public interface CandidateServiceInterface extends ServiceInterface<Candidate> {
 
     List<Candidate> findByAccelerationId(Long accelerationId);
     
-    List<Candidate> findAll();
 }

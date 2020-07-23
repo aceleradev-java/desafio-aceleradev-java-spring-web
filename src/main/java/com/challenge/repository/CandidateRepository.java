@@ -18,7 +18,5 @@ public interface CandidateRepository extends JpaRepository<Candidate, CandidateI
 
     List<Candidate> findByIdAccelerationId(Long accelerationId);
     
-    List<Candidate> findAll();
-
 }
 

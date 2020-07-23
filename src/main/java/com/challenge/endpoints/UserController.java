@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
     
     @GetMapping("/{id}")
-    public User save(@PathVariable("id") Long userId) {
+    public User getById(@PathVariable("id") Long userId) {
         return this.userService.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }

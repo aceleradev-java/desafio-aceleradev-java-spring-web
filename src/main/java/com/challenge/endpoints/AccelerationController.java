@@ -14,19 +14,24 @@ import com.challenge.service.interfaces.AccelerationServiceInterface;
 @RestController
 @RequestMapping(value = "/acceleration")
 public class AccelerationController {
-    
+
     @Autowired
     private AccelerationServiceInterface accelerationService;
+
+    @GetMapping
+    public List<Acceleration> findAll() {
+        return this.accelerationService.findAll();
+    }
 
     @GetMapping("/{id}")
     public Acceleration findById(@PathVariable("id") Long id) {
         return this.accelerationService.findById(1l).get();
-        
+
     }
-    
+
     @GetMapping("/company/{companyId}")
     public List<Acceleration> findByCompany(@PathVariable("companyId") Long companyId) {
         return this.accelerationService.findByCompanyId(companyId);
     }
-    
+
 }

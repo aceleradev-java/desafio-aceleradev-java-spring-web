@@ -10,5 +10,7 @@ import java.util.List;
 public interface AccelerationRepository extends JpaRepository<Acceleration, Long> {
 
     List<Acceleration> findByCandidatesIdCompanyId(Long companyId);
+    
+    List<Acceleration> findAll();
 
 }

@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.challenge.dto.SubmissionDTO;
 import com.challenge.entity.Submission;
+import com.challenge.exceptions.ResourceNotFoundException;
+import com.challenge.mappers.SubmissionMapper;
+import com.challenge.mappers.SubmissionMapperImpl;
 import com.challenge.service.interfaces.SubmissionServiceInterface;
 
 @RestController
@@ -19,14 +23,17 @@ public class SubmissionController {
     @Autowired
     private SubmissionServiceInterface submissionService;
     
-    
     @GetMapping
-    public ResponseEntity<List<Submission>> findById(
+    public ResponseEntity<List<SubmissionDTO>> findById(
             @RequestParam(value = "challengeId", required = true, defaultValue = "0") Long challengeId,
             @RequestParam(value = "accelerationId", required = true, defaultValue = "0") Long accelerationId) {
 
         List<Submission> submissions = submissionService.findByChallengeIdAndAccelerationId(challengeId, accelerationId);
-        return ResponseEntity.ok().body(submissions);
+        SubmissionMapper mapper = new SubmissionMapperImpl();
+        if (submissions.isEmpty()) {
+            throw new ResourceNotFoundException("Submission not found");
+        }
+        return ResponseEntity.ok().body(mapper.map(submissions));
     }
     
 }

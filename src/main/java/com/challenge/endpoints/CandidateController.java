@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.challenge.dto.CandidateDTO;
 import com.challenge.entity.Candidate;
+import com.challenge.exceptions.ResourceNotFoundException;
+import com.challenge.mappers.CandidateMapperImpl;
 import com.challenge.service.interfaces.CandidateServiceInterface;
 
 @RestController
@@ -31,13 +34,20 @@ public class CandidateController {
     }
     
     @GetMapping
-    public List<Candidate> findBy(
+    public List<CandidateDTO> findBy(
             @RequestParam(name = "accelerationId", required = true, defaultValue = "0")Long accelerationId,
             @RequestParam(name = "companyId", required = true, defaultValue = "0")Long companyId) {
+        List<Candidate> candidates;
+        CandidateMapperImpl mapper = new CandidateMapperImpl();
         if (accelerationId != 0) {
-            return this.candidateService.findByAccelerationId(accelerationId);
+            candidates = candidateService.findByAccelerationId(accelerationId);
+            return mapper.map(candidates);
         }
-        return this.candidateService.findByCompanyId(companyId);
+        candidates = candidateService.findByCompanyId(companyId);
+        if (candidates.isEmpty()) {
+            throw new ResourceNotFoundException("Candidate not found");
+        }
+        return mapper.map(candidates);
     }
     
 }
